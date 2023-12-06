@@ -1,0 +1,230 @@
+---
+title: "Medidas"
+author: "Kevin Jaciel Bautista Antonio"
+date: "2023-12-06"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#  MEDIDAS
+
+Se trabajará con la matriz de datos "penguins.xlsx"
+Obtenida de https://allisonhorst.github.io/palmerpenguins/
+
+##  Exportacion de la matriz penguins.xlsx
+
+1.1 Instalación de la paquetería 
+
+```{r}
+install.packages("readxl")
+```
+
+1.2 Abrir librería
+
+```{r}
+library(readxl)
+```
+
+1.3 Exportación de la matriz de datos
+
+```{r}
+penguins<-read_excel("penguins.xlsx")
+```
+
+##  Exploracion de la matriz
+
+1.- Dimensión de la matriz ocupando: 
+
+```{r}
+dim(penguins)
+```
+2.- Tipo de variables
+
+```{r}
+str(penguins)
+```
+
+
+3.-  Nombre de las columnas
+
+```{r}
+colnames(penguins)
+```
+
+4.-  Busqueda de datos perdidos
+
+```{r}
+anyNA(penguins)
+```
+## Tendencia Central 
+
+1.- Media y mediana 
+
+```{r}
+summary(penguins)
+```
+
+2.- Moda
+
+2.1.- Se descarga el paquete "moodest"
+
+```{r}
+install.packages("modeest")
+```
+
+2.2.- Se abre la librería
+
+```{r}
+library(modeest)
+```
+
+2.3.- Cálculo de la moda para la variable isla y largo del pico
+
+```{r}
+mfv(penguins$isla) # categorica
+mfv(penguins$largo_pico_mm) # numerica
+```
+## Medidas de posición 
+
+1.- Cuartiles (cuantiles)
+
+```{r}
+summary(penguins)
+```
+
+
+ 1.1.- Selección de una variable de la matriz de datos, en este caso será: **largo de la aleta**
+ 
+```{r}
+largo_aleta_mm<-penguins$largo_aleta_mm
+```
+ 
+ 1.2.- Visualizamos la tabla con los datos de la variable seleccionada:
+ 
+```{r}
+table(largo_aleta_mm)
+```
+ 
+ 2.- Sacamos los quintiles de la misma variable, es decir: **largo de la aleta**
+ 
+```{r}
+quintil<-quantile(penguins[["largo_aleta_mm"]], 
+                  p=c(.20, .40, .60, .80))
+```
+ 
+ 2.1.- Visualización de la variable:
+ 
+```{r}
+quintil
+```
+ 3.- Sacamos los deciles de la misma variable, es decir: **largo de la aleta**
+ 
+```{r}
+decil<-quantile(penguins[["largo_aleta_mm"]], 
+                p=c(.10, .20, .30, .40, .50, .60,
+                    .70, .80, .90))
+```
+ 
+ 3.1.- Visualización de la variable
+ 
+```{r}
+decil
+```
+ 
+4.- Sacamos los percentiles de la misma variable, es decir: **largo de la aleta**
+
+```{r}
+percentil<-quantile(penguins[["largo_aleta_mm"]], 
+                    p=c(.33, .66))
+```
+4.1.- Visualizamos la variable.
+
+```{r}
+percentil
+```
+## Interpretación de los percentiles:
+
+<192 = Bajo
+192-209 = Intermedio
+<209 = Alto
+ 
+ Visualizamos la tabla con los datos de la variable seleccionada
+ 
+```{r}
+table(largo_aleta_mm)
+```
+ 
+## Medidas de dispersión
+
+1.- Cálculo de la varianza (Solo se pueden usar variables cuantitativas)
+
+```{r}
+var(penguins$grosor_pico_mm)
+```
+
+2.- Cálculo de la desviación estándar
+
+```{r}
+sd(penguins$grosor_pico_mm)
+```
+
+3.- Error
+
+3.1.- Primero se calcula la media utilizando una variable, en este caso será: **largo  del pico**
+
+```{r}
+media_pico<-mean(penguins$largo_pico_mm)
+```
+
+3.2.- Se calcula el error utilizando la misma variable:
+
+```{r}
+error<-(penguins$largo_pico_mm-(media_pico))
+```
+
+3.3.- Se visualiza el error
+
+```{r}
+error
+```
+
+4.- Coeficiente de variacion
+
+4.1.- Se calcula el coeficiente de variación de  una variable, en este caso será **largo de pico**
+
+```{r}
+CV<-sd(penguins$largo_pico_mm)/mean(penguins$largo_pico_mm)*100
+```
+
+4.2.- Se visualiza el coeficiente de variación
+
+```{r}
+CV
+```
+5.- Rango Intercuartílico 
+
+```{r}
+IQR(penguins$largo_pico_mm)
+```
+6.- Rango
+
+6.1.- Se selecciona una variable, en este caso será: **largo del pico**
+
+```{r}
+pico<-penguins$largo_pico_mm
+```
+
+6.2.- Se calcula el rango de la variable seleccionada
+
+```{r}
+rango<-max(pico)-min(pico)
+```
+
+6.3.- Se visualiza el rango
+
+```{r}
+rango
+```
+
